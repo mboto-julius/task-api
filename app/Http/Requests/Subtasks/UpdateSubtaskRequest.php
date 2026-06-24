@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Tasks;
+namespace App\Http\Requests\Subtasks;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTaskRequest extends FormRequest
+class UpdateSubtaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,6 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['string'],
-            'start_date' => ['date'],
-            'end_date' => ['date', 'after_or_equal:start_date'],
         ];
     }
 }

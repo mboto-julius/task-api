@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Tasks\DailyLogController;
+use App\Http\Controllers\Api\Tasks\SubtaskController;
 use App\Http\Controllers\Api\Tasks\TaskController;
-use App\Http\Controllers\Api\Tasks\TaskStatisticsController;
-use App\Http\Controllers\Api\Tasks\TaskStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
@@ -16,7 +16,20 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout','logout');
         Route::get('/profile','profile');
     });
+
     Route::apiResource('tasks', TaskController::class);
-    Route::patch('tasks/{task}/status',[TaskStatusController::class, 'update']);
-    Route::get('tasks-statistics',[TaskStatisticsController::class, 'index']);
+
+    Route::controller(SubtaskController::class)->group(function () {
+        Route::get('tasks/{task}/subtasks', 'index');
+        Route::post('tasks/{task}/subtasks', 'store');
+    });
+    Route::apiResource('subtasks', SubtaskController::class)->except(['index', 'store']);
+
+
+    Route::controller(DailyLogController::class)->group(function () {
+        Route::get('subtasks/{subtask}/logs', 'index');
+        Route::post('subtasks/{subtask}/logs', 'store');
+    });
+    Route::apiResource('logs', DailyLogController::class)->except(['index', 'store']);
 });
+

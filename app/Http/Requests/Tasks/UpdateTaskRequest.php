@@ -23,9 +23,10 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            'due_date' => ['required', 'date'],
+            'title' => ['nullable','string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'start_date' => ['nullable','date'],
+            'end_date' => ['nullable','date', 'after_or_equal:start_date'],
         ];
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\TaskResource;
+use App\Http\Resources\SubtaskResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskResource extends JsonResource
+class DailyLogResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +18,11 @@ class TaskResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'task' => new TaskResource($this->subtask->task),
+            'subtask' => new SubtaskResource($this->subtask),
             'description' => $this->description,
-            'status' => $this->status,
-            'start_date' => $this->start_date?->format('Y-m-d H:i:s'),
-            'end_date' => $this->start_date?->format('Y-m-d H:i:s'),
-            'is_completed' => $this->is_completed,
+            'start_time' => $this->start_time?->format('Y-m-d H:i:s'),
+            'end_time' => $this->end_time?->format('Y-m-d H:i:s'),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];

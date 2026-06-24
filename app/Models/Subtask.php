@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Subtask;
+use App\Models\Task;
+use App\Models\DailyLog;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,41 +11,30 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
-    'user_id',
+    'task_id',
     'title',
-    'description',
-    'status',
-    'start_date',
-    'end_date',
     'is_completed',
     'completed_at',
 ])]
-class Task extends Model
+class Subtask extends Model
 {
     use HasFactory;
-
-    protected $attributes = [
-        'status' => 0,
-        'is_completed' => 0,
-    ];
 
     protected function casts(): array
     {
         return [
             'is_completed' => 'boolean',
-            'start_date' => 'datetime',
-            'end_date' => 'datetime',
             'completed_at' => 'datetime',
         ];
     }
 
-    public function user(): BelongsTo
+    public function task(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Task::class);
     }
 
-    public function subtasks(): HasMany
+    public function dailyLogs(): HasMany
     {
-        return $this->hasMany(Subtask::class);
+        return $this->hasMany(DailyLog::class);
     }
 }
